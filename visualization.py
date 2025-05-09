@@ -10,6 +10,7 @@ def draw_maze(screen, env, path=None):
             rect = pygame.Rect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE)
             color = WHITE if env.maze[y][x] == 0 else BLACK
             pygame.draw.rect(screen, color, rect)
+            
             if (y, x) in env.visited:
                 pygame.draw.rect(screen, RED, rect, 1)
     
@@ -49,12 +50,13 @@ def setup_environment(env):
                 mx, my = pygame.mouse.get_pos()
                 x = mx // CELL_SIZE
                 y = my // CELL_SIZE
-                if event.button == 1:  # Left-click
+                
+                if event.button == 1:  # Left-click: add wall
                     env.maze[y][x] = 1
-                elif event.button == 3:  # Right-click
+                elif event.button == 3:  # Right-click: remove wall
                     env.maze[y][x] = 0
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RETURN:
+                if event.key == pygame.K_RETURN:  # Press Enter to start training
                     running = False
         
         screen.fill(BLACK)
@@ -65,6 +67,7 @@ def setup_environment(env):
         pygame.display.flip()
         clock.tick(60)
 
+        
 def run_visualization(env, q_table):
     pygame.init()
     screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
