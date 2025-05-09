@@ -1,8 +1,12 @@
 # Grid and display settings
-GRID_WIDTH, GRID_HEIGHT = 20, 12  
+# GRID_WIDTH, GRID_HEIGHT = 20, 12  
+GRID_WIDTH, GRID_HEIGHT = 5, 5  
 CELL_SIZE = 40  
 WINDOW_WIDTH = GRID_WIDTH * CELL_SIZE  
 WINDOW_HEIGHT = GRID_HEIGHT * CELL_SIZE  
+
+# Control visualization speed (30 FPS)
+Frame_RATE = 30  # FPS
 
 # Color definitions (RGB)
 WHITE = (255, 255, 255)  # Empty paths

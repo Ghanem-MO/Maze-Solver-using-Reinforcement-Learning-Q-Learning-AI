@@ -7,7 +7,8 @@ def main():
     # Create an instance of our custom maze environment
     env = MazeEnv()
     print("Training Q-learning agent...")
-    q_table = train_q_learning(env, episodes=1000)
+    q_table = train_q_learning(env, episodes=1000,
+ min_epsilon=0.09)
     print("Training complete. Running visualization...")
     
     run_visualization(env, q_table)
