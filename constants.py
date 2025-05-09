@@ -11,4 +11,6 @@ RED = (250, 0, 0)        # Agent
 GRAY = (180, 180, 180)   # Grid lines
 BLUE = (0, 120, 255)     # Goal
 GREEN = (0, 200, 0)      # Path visualization
+# = (150, 255, 150)  # Possible paths visualization
+
 # DARK_BLUE = (0,50, 150)  # Visited cells

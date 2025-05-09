@@ -66,38 +66,25 @@ def train_q_learning(env, episodes=1000, alpha=0.1, gamma=0.95,
     
     return q_table
 
-def extract_path(q_table, env, max_steps=1000):
+def extract_path(self, q_table):
     """
-    Extract the optimal path through the maze using the trained Q-table.
-    
-    Args:
-        q_table (numpy.ndarray): Trained Q-table
-        env (MazeEnv): The maze environment instance
-        max_steps (int): Maximum steps to attempt before stopping (default: 1000)
-        
-    Returns:
-        list: Sequence of (y,x) positions representing the optimal path
-    """
-    
-    state = env.reset()  # Start from initial state
-    path = [env.agent]  # Initialize path with starting position
-    steps = 0
-    
-    # Follow the policy until reaching goal or max steps
-    while steps < max_steps:
-        # Select action with highest Q-value
-        action = np.argmax(q_table[state])
-        
-        # Take action in environment
-        state, _, done, _ = env.step(action)
-        
-        # Record new position
-        path.append(env.agent)
-        
-        # Check if goal reached
+   Extract the optimal path through the maze using the trained Q-table.
+
+   Args:
+       q_table (numpy.ndarray): Trained Q-table
+       env (MazeEnv): The maze environment instance
+       max_steps (int): Maximum steps to attempt before stopping (default: 1000)
+
+   Returns:
+       list: Sequence of (y,x) positions representing the optimal path
+   """
+    self.reset()
+    path = [self.agent]
+    while self.agent != self.goal:
+        state = self._get_state()
+        action = int(np.argmax(q_table[state]))
+        _, _, done, _ = self.step(action)
+        path.append(self.agent)
         if done:
             break
-            
-        steps += 1
-    
     return path
