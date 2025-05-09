@@ -5,11 +5,18 @@ from q_learning import extract_path
 def draw_maze(screen, env, path=None):
     screen.fill(BLACK)
     
+    # Draw maze cells (0: free, 1: wall)
     for y in range(GRID_HEIGHT):
         for x in range(GRID_WIDTH):
             rect = pygame.Rect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE)
-            color = WHITE if env.maze[y][x] == 0 else BLACK
-            pygame.draw.rect(screen, color, rect)
+            # Draw an rat trap instead of a wall
+            if env.maze[y][x] == 1:
+                trap_image = pygame.image.load("trap.png")
+                trap_image = pygame.transform.scale(trap_image, (CELL_SIZE, CELL_SIZE))
+                screen.blit(trap_image, (x * CELL_SIZE, y * CELL_SIZE))
+            else:
+                # Draw free cell
+                pygame.draw.rect(screen, WHITE, rect)
             
             if (y, x) in env.visited:
                 pygame.draw.rect(screen, RED, rect, 1)
@@ -20,8 +27,11 @@ def draw_maze(screen, env, path=None):
         pygame.draw.line(screen, GRAY, (x * CELL_SIZE, 0), (x * CELL_SIZE, WINDOW_HEIGHT), 1)
     
     gy, gx = env.goal
-    pygame.draw.rect(screen, BLUE, (gx * CELL_SIZE, gy * CELL_SIZE, CELL_SIZE, CELL_SIZE))
-    
+    # Draw goal position as a cheese image
+    cheese_image = pygame.image.load("cheese.png")
+    cheese_image = pygame.transform.scale(cheese_image, (CELL_SIZE, CELL_SIZE))
+    screen.blit(cheese_image, (gx * CELL_SIZE, gy * CELL_SIZE))
+
     if path:
         for i in range(1, len(path)):
             py, px = path[i-1]
@@ -32,7 +42,10 @@ def draw_maze(screen, env, path=None):
     
     ay, ax = env.agent
     center = (ax * CELL_SIZE + CELL_SIZE//2, ay * CELL_SIZE + CELL_SIZE//2)
-    pygame.draw.circle(screen, RED, center, CELL_SIZE//3)
+    # Draw agent as an image
+    agent_image = pygame.image.load("rat.png")
+    agent_image = pygame.transform.scale(agent_image, (CELL_SIZE, CELL_SIZE))
+    screen.blit(agent_image, (ax * CELL_SIZE, ay * CELL_SIZE))
 
 def setup_environment(env):
     pygame.init()
