@@ -53,17 +53,6 @@ def draw_training_state(env, screen, font, episode, epsilon, total_reward):
     agent_image = pygame.transform.scale(agent_image, (CELL_SIZE, CELL_SIZE))
     screen.blit(agent_image, (ax * CELL_SIZE, ay * CELL_SIZE))
 
-    # Overlay text: Episode, Reward, Epsilon
-    text_episode = font.render(f"Episode: {episode}", True, WHITE)
-    text_reward = font.render(f"Reward: {total_reward:.1f}", True, WHITE)
-    text_epsilon = font.render(f"Epsilon: {epsilon:.2f}", True, WHITE)
-
-    # print(f"Episode: {episode}, Reward: {total_reward:.1f}, Epsilon: {epsilon:.2f}")
-
-    # screen.blit(text_episode, (10, 10))
-    # screen.blit(text_reward, (10, 40))
-    # screen.blit(text_epsilon, (10, 70))
-
     pygame.display.flip()
 
 def train_q_learning(env, episodes=1000, alpha=0.1, gamma=0.95,
@@ -109,7 +98,13 @@ def train_q_learning(env, episodes=1000, alpha=0.1, gamma=0.95,
         # Decay exploration rate
         epsilon = max(min_epsilon, epsilon * epsilon_decay)
         # Print episode stats
-        print(f"Episode: {episode}, Total Reward: {total_reward:.1f}, Epsilon: {epsilon:.2f}")
+        if(episodes % 10 == 0 ):
+            print(f"Episode: {episode}, Total Reward: {total_reward:.1f}, Epsilon: {epsilon:.2f}")
+        
+        # stop training if the last 10 episodes total reward does not improve by 10%
+        if episode > 10 and total_reward < 0.1 * (episodes / 10):
+            print(f"Stopping training at episode {episode} due to lack of improvement.")
+            break
 
     return q_table
 

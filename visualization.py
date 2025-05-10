@@ -78,7 +78,7 @@ def setup_environment(env):
         font = pygame.font.SysFont(None, 24)
         
         pygame.display.flip()
-        clock.tick(60)
+        clock.tick(Frame_RATE)
 
         
 def run_visualization(env, q_table):
